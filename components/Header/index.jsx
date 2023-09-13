@@ -1,8 +1,6 @@
 'use client'
 
 import { useContext, useEffect, useState } from "react"
-import MobileHeader from "./Mobile"
-import WebHeader from "./Web"
 import useScreenSize from "@/hooks/useScreenSize"
 import { AuthContext } from "@/app/home/provider/authProvider"
 import Link from "next/link"

@@ -4,13 +4,13 @@ import { api } from "./api";
  class CitiesService {
   constructor() {
     this.httpClient = api
-    this.base_url = 'http://localhost:3000'
+    this.base_url = `${process.env.NEXT_PUBLIC_BASE_URL}`
   }
 
 
   async getCities() {
     // const {data} = await this.httpClient.get('/api/getCities')
-    const data = await fetch(`http://localhost:5000/city/list`)
+    const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/city/list`)
     return data.json()
   }
 }

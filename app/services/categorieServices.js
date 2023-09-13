@@ -7,7 +7,7 @@ import { api } from "./api";
 
 
   async getCategories() {
-    const data = await fetch('http://localhost:5000/category/list', {next: { revalidate: 5000 }})
+    const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category/list`, {next: { revalidate: 5000 }})
     
     return data.json()
   }

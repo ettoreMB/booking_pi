@@ -8,21 +8,21 @@ import { api } from "./api";
 
   async getProducts(city) {
     if(city){
-      const data = await fetch(`http://localhost:5000/product/listByCity?id=${city}`, {next: { revalidate: 5000 }})
+      const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/listByCity?id=${city}`, {next: { revalidate: 5000 }})
       return data.json()
     } else {
-      const data = await fetch('http://localhost:5000/product/list', {next: { revalidate: 5000 }})
+      const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/list`, {next: { revalidate: 5000 }})
       return data.json()
     }
   }
 
   async getProductsById(id) {
-    const data = await fetch(`http://localhost:5000/product/${id}`, {next: { revalidate: 10000 ,cache: 'no-store'} })
+    const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/${id}`, {next: { revalidate: 10000 ,cache: 'no-store'} })
     return data.json()
   }
 
   async getProductsByUserId(id) {
-    const data = await fetch(`http://localhost:5000/product/listByUserId/${id}`, {next: { revalidate: 10000 ,cache: 'no-store'} })
+    const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/listByUserId/${id}`, {next: { revalidate: 10000 ,cache: 'no-store'} })
     return data.json()
   }
 

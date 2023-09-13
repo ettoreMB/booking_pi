@@ -8,7 +8,7 @@ import { api } from "./api";
 
 
   async getRulesAttributes() {
-    const {data} = await axios.get(`http://localhost:5000/rulesAttributes`, {next: { revalidate: 10000 ,cache: 'no-store'} })
+    const {data} = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/rulesAttributes`, {next: { revalidate: 10000 ,cache: 'no-store'} })
     
 
     return data

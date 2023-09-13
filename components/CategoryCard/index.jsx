@@ -12,7 +12,7 @@ export default function CategoryCard({ name, image , icon}) {
       />
       {/* <Image
         className="h-10  md:h-0 w-10 md:w-0 "
-        src={`/icons/tree-palm-fill.svg`}
+        src={/icons/tree-palm-fill.svg`}
         alt="hotel"
       /> */}
     </div>

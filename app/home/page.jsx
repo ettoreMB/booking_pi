@@ -14,7 +14,7 @@ export default async function HomePage() {
 
   const [products, categories, cities] = await Promise.all([productsService.getProducts(), categoriesService.getCategories(), citiesService.getCities()])
 
-  console.log("renderizou Home ")
+
   const hasData = !!products && !!categories && !!cities
   return (
     <main className="h-full w-full">
