@@ -35,7 +35,7 @@ export default function Header() {
         <div className="w-full h-full flex justify-between items-center">
           <div>
             <Link href={'/'}>
-              <Image src="/logo3.svg" alt="" />
+              <Image src="/logo3.svg" alt="" width={100} height={100}/>
             </Link>
           </div>
           {(isloggedIn && user) && (<div className="flex items-center gap-2">

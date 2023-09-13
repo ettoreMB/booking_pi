@@ -20,8 +20,9 @@ export default function Card({ produto }) {
   return (
     <div className=" h-[500px] md:h-72 w-full lg:w-1/2 2xl:w-1/3 min-w-[200px] p-1">
       <div className="shadow-md lg:shadow-2xl self-center rounded-md bg-white flex flex-col md:flex-row h-full w-full ">
-        <div className="h-1/2 md:h-full w-full md:w-1/2">
+        <div className="h-1/2 md:h-full w-full md:w-1/2 object-contain relative">
           <Image
+          fill
             className="object-cover h-full w-full rounded-md"
             src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="hotel image"
           />
@@ -38,7 +39,7 @@ export default function Card({ produto }) {
             </div>
           </div>
           <div className="mb-4 flex items-center justify-start text-sm gap-1">
-            <Image src="./icons/location.svg" alt="" className="h-4" />
+            <Image src="./icons/location.svg" alt="" className="h-4" height={16} width={16} />
             <span>A {produto.distance_center} m do centro - </span>
             <Link href={`/`} className="uppercase text-optionB-main text-end" >MOSTRAR NO MAPA</Link>
           </div>

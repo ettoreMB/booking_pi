@@ -9,6 +9,9 @@ export default function CategoryCard({ name, image , icon}) {
         className=" h-0 md:h-full w-0  md:w-full object-cover"
         src={image}
         alt="hotel"
+        width={100}
+        height={176}
+        
       />
       {/* <Image
         className="h-10  md:h-0 w-10 md:w-0 "

@@ -9,6 +9,7 @@ import { useContext } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import citiesService from "@/app/services/citiesService"
+import { FilterContext } from "@/app/home/provider/filterProvier"
 
 
 export default function SearchBar({cities}){

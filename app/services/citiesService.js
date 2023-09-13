@@ -1,17 +1,17 @@
 
-import { api } from "./api";
+import axios from "axios";
+
 
  class CitiesService {
-  constructor() {
-    this.httpClient = api
-    this.base_url = `${process.env.NEXT_PUBLIC_BASE_URL}`
-  }
+
 
 
   async getCities() {
     // const {data} = await this.httpClient.get('/api/getCities')
-    const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/city/list`)
-    return data.json()
+    
+    const {data} = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/city/list`)
+  
+    return data
   }
 }
 

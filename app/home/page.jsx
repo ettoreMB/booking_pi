@@ -14,21 +14,21 @@ export default async function HomePage() {
 
   const [products, categories, cities] = await Promise.all([productsService.getProducts(), categoriesService.getCategories(), citiesService.getCities()])
 
+  console.log(cities)
 
-  const hasData = !!products && !!categories && !!cities
+  const hasData = products.length >0 && categories.length > 0 && cities.length > 0
+  
   return (
     <main className="h-full w-full">
       <Suspense fallback={<Loading />}>
-        {hasData && (
-          <>
+     
+      <span>{hasData}</span>
             <SearchBar cities={cities} />
           <div className="px-10  py-10 ">
             <CategoryList categories={categories} />
             <Products products={products} />
           </div>
-          </>
-        )}
-        {!hasData && (<h1>erro ao carregar a pagina</h1>)}
+        
       </Suspense>
     </main>
   )

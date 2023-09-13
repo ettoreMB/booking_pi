@@ -21,9 +21,10 @@ export default  function Select({cities}) {
       items-center
       px-2 
       shadow-md
+      object-contain
     `}
     >
-      <Image src='/icons/location.svg' alt="icon" className="h-6" />
+      <Image src='/icons/location.svg' alt="icon" className="h-6" height={24} width={24}  />
       <select
         className={`
         border-0 h-full focus:outline-none ring-transparent focus:ring-0 flex-1
