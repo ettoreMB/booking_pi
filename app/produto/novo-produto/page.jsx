@@ -1,5 +1,5 @@
 'use client'
-
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 import { Client } from "@googlemaps/google-maps-services-js";
 import Loading from "@/app/loading"
 import citiesService from "@/app/services/citiesService"
@@ -9,13 +9,15 @@ import FormGroup from "@/components/Form/formGroup"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Form, useForm } from "react-hook-form";
 import z from 'zod'
 import { Input } from "@/components/Input";
 import { TextArea } from "@/components/TextArea";
 import categoriesService from "@/app/services/categorieServices";
 import Image from "next/image";
+import { AuthContext } from "@/app/home/provider/authProvider";
+
 
 const imageTypeRegex = /image\/(png|jpg|jpeg)/gm;
 // const ProductFormSchema = z.object({
@@ -33,7 +35,7 @@ const imageTypeRegex = /image\/(png|jpg|jpeg)/gm;
 //   title: z.string(),
 //   description: z.string(),
 // })
-const client = new Client({});
+
 
 
 export default function NewProduct() {
@@ -52,7 +54,8 @@ export default function NewProduct() {
   })
 
   const [images, setImages] = useState([])
-  const [file, setFile] = useState();
+  const [coverImageFile, setCoverImageFile] = useState();
+  const [coverImage, setCoverImage] = useState();
   const [imagesFiles, setImagesFiles] = useState([])
   const [attributes, setAttributes] = useState([])
   const [address, setAddress] = useState(
@@ -73,7 +76,8 @@ export default function NewProduct() {
     }
   )
 
-  // const [imagesUrl, setImagesUrl] =  useState([])
+  const { user } = useContext(AuthContext)
+
   function imageHandler(e) {
     const { files } = e.target
     const validImagesFiles = []
@@ -92,8 +96,9 @@ export default function NewProduct() {
   }
 
   function handleChangeImage(e) {
-
-    setFile(URL.createObjectURL(e.target.files[0]));
+    const image = getValues("cover_image")
+    setCoverImage(URL.createObjectURL(image[0]));
+    setCoverImageFile(image[0])
   }
 
   function handleRemoveImage(Image) {
@@ -171,63 +176,86 @@ export default function NewProduct() {
 
   }
 
-  async function hadleAddDefaultText(e) {
+  async function handleAddDefaultText(e) {
     const target = e.target
+    const ruleId = target.value.split("_")
+    const rule = data.rules.find(rule => rule.id === ruleId[1])
 
 
-    const rule = data.rules.find(rule => rule.id === target.value)
     if (target.checked && !!rule) {
       switch (rule.title) {
-        case 'politica_cancelamento':
-          setValue(`rules.${rule.title}.text`, "A reserva deve ser cancelada até 48 horas antes");
+        case 'politica cancelamento':
+          setValue(`rules.${ruleId[0]}.text`, "A reserva deve ser cancelada até 48 horas antes");
           break
-        case 'regras_da_casa':
-          setValue(`rules.${rule.title}.text`, "Não é pertmitido botar fogo na casa");
+        case 'regras da casa':
+          setValue(`rules.${ruleId[0]}.text`, "Não é pertmitido botar fogo na casa");
           break
-        case 'saude_e_seguranca':
-          setValue(`rules.${rule.title}.text`, "proibido fumar");
+        case 'saude e seguraça':
+          setValue(`rules.${ruleId[0]}.text`, "proibido fumar");
           break
       }
     } else {
-      setValue(`rules.${rule.title}.text`, "");
-
+      setValue(`rules.${ruleId[0]}.text`, "");
     }
 
   }
 
-  function onSubmit(data) {
+  async function onSubmit(data) {
+    const rules = []
+    const images = []
+    data.rules.forEach(item => {
+      rules.push(item)
+    })
+
     const bodyData = {
-      user_id: "123f20a7-1ba0-4378-bc4a-e1827d132554",
+      user_id: "cc7c3f1c-ca13-4d8a-a042-dccf6a60419c",
       name: data.name,
       title: data.title,
       description: data.description,
       address: `${data.street} ${data.number} ${data.complement} ${data.bairro}`,
       zip_code: data.zip_code,
-      cover_image_url: "https://image.com",
+      cover_image_url: "",
       city_id: address.localidade.id,
-      category_id: "45888b28-d1fb-4992-bc21-1b39c9c8daf4",
-      images: ["image1", "image2"],
-      rules: [
-        {
-          id: "23976188-a8d5-4363-973c-fae4f4de1d1c",
-          text: "regras_da casa text"
-        },
-        {
-          id: "359b9592-9106-4e98-b968-f7fc28dfe7d1",
-          text: "Politica cancelamento text"
-        },
-        {
-          id: "810aa314-a25b-4796-9d66-7a5d9d17ec19",
-          text: "saude e seguranca text"
-        }
-      ],
-      attributes: [
-        {
-          id: "dfa8cf7c-4b18-11ee-be52-0242ac130001"
-        }
-      ]
+      category_id: data.category,
+      images: images,
+      rules,
+      attributes: data.attributes
     }
-    console.log(data)
+
+    
+
+    
+
+    try {
+      const { data: urlImage } = await axios.post(`/api/imageS3?product=${data.name}&file=${coverImageFile.name}&fileType=${coverImageFile.type}`)
+      console.log(urlImage)
+      console.log(coverImageFile)
+      const {data: s3up}= await axios.put(urlImage, coverImageFile, {
+        headers: {
+          "Content-Type": coverImageFile.type
+        }
+      })
+      console.log(s3up)
+      bodyData.cover_image_url = `https://${process.env.NEXT_PUBLIC_S3_BUCKET}.s3.amazonaws.com/${data.name}-${coverImageFile.name}`
+
+      imagesFiles.forEach(async (file) => {
+        const { data: urlImage } = await axios.post(`/api/imageS3?product=${data.name}&file=${file.name}&fileType=${file.type}`)
+        console.log(urlImage)
+        await axios.put(urlImage, file, {
+          headers: {
+            "Content-Type": coverImageFile.type
+          }
+        })
+        bodyData.images.push(`https://${process.env.NEXT_PUBLIC_S3_BUCKET}.s3.amazonaws.com/${data.name}-${file.name}`)
+
+      })
+      await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/product/create`, bodyData)
+      
+    } catch (error) {
+      alert(error)
+    }
+
+    console.log(bodyData)
   }
 
   useEffect(() => {
@@ -297,7 +325,8 @@ export default function NewProduct() {
 
               <FormGroup label={"Cateogira: "}>
                 <div>
-                  <select 
+                  <select
+                  {...register('category')}
                     className="
                           border-0  
                           h-10 
@@ -316,9 +345,9 @@ export default function NewProduct() {
                           py-2 
                           px-2 
                           shadow-md"
-                          id="categories"
-                      >
-                          
+                    id="categories"
+                  >
+
                     {categories.map(category => (
                       <option key={category.ID} value={category.ID}>{category.Name}</option>
                     ))}
@@ -393,8 +422,8 @@ export default function NewProduct() {
 
                   <div className="flex">
                     <FormGroup label={"cidade"}>
-                     
-                        <select id="city-select" {...register('city')} 
+
+                      <select id="city-select" {...register('city')}
                         className="
                           border-0  
                           h-10 
@@ -412,14 +441,14 @@ export default function NewProduct() {
                           items-center 
                           py-2 
                           px-2 
-                          shadow-md"> 
-                          <option value={address.localidade.id} selected={!!address.localidade.name}>{address.localidade.name ? address.localidade.name : "selecione uma cidade"}</option>
-                          {cities.map(city => (
-                            <option value={city.Id} key={city.Id}>{city.Name}</option>
-                          ))}
+                          shadow-md">
+                        <option value={address.localidade.id} selected={!!address.localidade.name}>{address.localidade.name ? address.localidade.name : "selecione uma cidade"}</option>
+                        {cities.map(city => (
+                          <option value={city.Id} key={city.Id}>{city.Name}</option>
+                        ))}
 
-                        </select>
-                     
+                      </select>
+
 
 
                     </FormGroup>
@@ -464,12 +493,12 @@ export default function NewProduct() {
                     id={`attribute-${index}`}
                     type="checkbox"
                     value={attribute.id}
-                    {...register(`attributes.${attribute.icon}`,
+                    {...register(`attributes.${index}.id`,
                       { value: `${attribute.id}` })}
                     onChange={(e) => handleAddAttribute(e)}
                     className="h-4 w-4 rounded-full shadow focus:ring-0"
                   />
-                  <Image src={`/icons/${attribute.icon}.svg`} alt="" className="h-6 w-6" />
+                  <Image src={`/icons/${attribute.icon}.svg`} alt="" className="h-6 w-6" width={24} height={24} />
                   <span>{attribute.name}</span>
                 </div>
               ))}
@@ -484,10 +513,13 @@ export default function NewProduct() {
                 <div key={rule.id}>
                   <div className="flex flex-col gap-2">
                     <span>{rule.title}</span>
-                    <input type="hidden" {...register(`rules.${rule.title}.id`, { value: `${rule.id}` })} />
-                    <TextArea value={rule.text} {...register(`rules.${rule.title}.text`)} />
-                    <label htmlFor="">usar texto  padrão</label>
-                    <input type="checkbox" id={`rule-${index}`} value={rule.id} onClick={(e) => hadleAddDefaultText(e)} />
+                    <input type="hidden" {...register(`rules.${index}.id`, { value: `${rule.id}` })} />
+                    <TextArea value={rule.text} {...register(`rules.${index}.text`)} />
+
+                    <div className="flex gap-2 items-center">
+                      <input type="checkbox" id={`rule-${index}`} value={`${index}_${rule.id}`} onClick={(e) => handleAddDefaultText(e)} className="h-4 w-4 rounded-full shadow focus:ring-0" />
+                      <label htmlFor="">usar texto  padrão</label>
+                    </div>
                   </div>
 
                 </div>
@@ -498,9 +530,11 @@ export default function NewProduct() {
           <div className="flex flex-col bg-white shadow-lg rounded-lg p-4">
             <h2>Imagens</h2>
             <FormGroup label={"Imagem de capa"}>
-              <input type="file" onChange={handleChangeImage} {...register("cover_image")} />
+              <input type="file" {...register("cover_image", { onChange: (e) => handleChangeImage(e) })} />
             </FormGroup>
-            <Image src={file} className="w-20 h-20" alt="image" />
+            {coverImage && (
+              <Image src={coverImage} className="w-20 h-20" alt="image" width={80} height={80} />
+            )}
 
             <FormGroup label={"galeria de imagens"}>
               <input type="file" multiple onChange={imageHandler} />
@@ -509,7 +543,7 @@ export default function NewProduct() {
             <div className="flex gap-2">
               {images.map(image => (
                 <div key={image} className="w-20 h-20" onClick={() => handleRemoveImage(image)}   >
-                  <Image src={image} className="w-full h-full" alt="image"/>
+                  <Image src={image} className="w-full h-full" alt="image" width={80} height={80} />
                 </div>
               ))}
             </div>
