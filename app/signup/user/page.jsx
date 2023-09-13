@@ -1,6 +1,5 @@
 "use client"
 
-
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod"
 
@@ -41,7 +40,7 @@ export default function UserSignup() {
 
   async function onSubmit(data) {
    try {
-    await axios.post('http://localhost:5000/user/create', {
+    await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/create`, {
       name: data.name,
       lastName: data.lastName,
       email: data.email,
@@ -67,27 +66,27 @@ export default function UserSignup() {
         onSubmit={handleSubmit(onSubmit)}
       > 
         <div className="flex gap-3">
-        <FormGroup label={"Nome"}>
-          <Input type='text' {...register('name')} error={errors?.name?.message} />
-        </FormGroup>
-        <FormGroup label={"Sobrenome"}>
-          <Input type='text' {...register('lastName')} error={errors?.lastName?.message} />
-        </FormGroup>
+          <FormGroup label={"Nome"}>
+            <Input type='text' {...register('name')} error={errors?.name?.message} />
+          </FormGroup>
+          <FormGroup label={"Sobrenome"}>
+            <Input type='text' {...register('lastName')} error={errors?.lastName?.message} />
+          </FormGroup>
         </div>
         
 
-        <FormGroup label={"E-mail"}>
-          <Input type='text' {...register('email')} error={errors?.email?.message} />
-        </FormGroup>
+          <FormGroup label={"E-mail"}>
+            <Input type='text' {...register('email')} error={errors?.email?.message} />
+          </FormGroup>
 
-        <FormGroup label={"Senha"}>
-          <Input type="password" {...register('password')} error={errors?.password?.message} />
-        </FormGroup>
+          <FormGroup label={"Senha"}>
+            <Input type="password" {...register('password')} error={errors?.password?.message} />
+          </FormGroup>
 
-        <FormGroup label={"Senha"}>
-          <Input type="password" {...register('repeatPassword')} error={errors?.repeatPassword?.message} />
-        </FormGroup>
-        <Button filled type="submit" >Criar Conta</Button>
+          <FormGroup label={"Senha"}>
+            <Input type="password" {...register('repeatPassword')} error={errors?.repeatPassword?.message} />
+          </FormGroup>
+          <Button filled type="submit" >Criar Conta</Button>
 
         <div className="text-base text-center">Já tem uma conta? <Link className="text-blue-500" href='/login'>Iniciar sessão</Link></div>
       </form>

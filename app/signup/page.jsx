@@ -3,7 +3,8 @@ import Link from "next/link";
 
 export default function SignupChoices(){
   return(
-    <div className="h-[calc(100vh-153px)] w-full">
+    <>
+      <div className="h-[calc(100vh-153px)] w-full">
       <div className="h-full flex justify-center items-center gap-6">
         <Link href="/signup/user">
           <Button filled>Quero alugar</Button>
@@ -13,5 +14,7 @@ export default function SignupChoices(){
         </Link>
       </div>
     </div>
+    </>
+    
   )
 }

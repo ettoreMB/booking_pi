@@ -3,7 +3,7 @@
 import CategoryCard from "@/components/CategoryCard"
 import { useQuery } from "@tanstack/react-query"
 import { useContext } from "react"
-import { FilterContext } from "../../provider/filterProvier"
+import { FilterContext } from "../../../app/home/provider/filterProvier"
 import categoriesService from "@/app/services/categorieServices"
 
 export default function CategoryList({ categories }) {

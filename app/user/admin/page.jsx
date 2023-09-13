@@ -1,7 +1,6 @@
 'use client'
 
 import { AuthContext } from "@/app/home/provider/authProvider";
-import { Button } from "@/components/Button";
 import { GearSix, Plus } from "@phosphor-icons/react";
 import Link from "next/link";
 import { useContext } from "react";

@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { forwardRef } from "react"
 
 
@@ -25,7 +26,7 @@ const InputBase = ({ icon = null, error = null, label = "", ...rest }, ref) => {
           ${!!error && 'border-2 border-red-dark bg-red-light'}
         `}
       >
-        {!!icon && <img src={icon} alt="icon" className="h-6" />}
+        {!!icon && <Image src={icon} alt="icon" className="h-6" />}
         <input
           className={`
             border-0 h-full focus:outline-none ring-transparent focus:ring-0 flex-1 focus:border-optionB-main

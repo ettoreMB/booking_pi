@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function MobileHeader() {
@@ -5,7 +6,7 @@ export default function MobileHeader() {
     <div className="w-full h-full flex justify-between items-center">
     <div>
       <Link href={'/'}>
-        <img src="/logo3.svg" alt="" /> 
+        <Image src="/logo3.svg" alt="" /> 
       </Link>
     </div>
       <span>ICOn</span>

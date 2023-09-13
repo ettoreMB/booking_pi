@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function Footer() {
   return (
     <footer
@@ -9,10 +11,10 @@ export default function Footer() {
        </span>
       </div>
       <div className="flex gap-7">
-        <img src="/icons/facebook.svg" alt="" />
-        <img src="/icons/instagran.svg" alt="" />
-        <img src="/icons/twitter.svg" alt="" />
-        <img src="/icons/linkedin.svg" alt="" />
+        <Image src="/icons/facebook.svg" alt="" />
+        <Image src="/icons/instagran.svg" alt="" />
+        <Image src="/icons/twitter.svg" alt="" />
+        <Image src="/icons/linkedin.svg" alt="" />
       </div>
     </footer>
   )

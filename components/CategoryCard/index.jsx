@@ -1,14 +1,16 @@
+import Image from "next/image";
+
 export default function CategoryCard({ name, image , icon}) {
 
   return (
     <div className=" w-full md:w-60  h-16 md:h-60 rounded-lg flex flex-col shadow-md items-center">
     <div className=" h-0 md:h-44 w-0 md:w-full">
-      <img
+      <Image
         className=" h-0 md:h-full w-0  md:w-full object-cover"
         src={image}
         alt="hotel"
       />
-      {/* <img
+      {/* <Image
         className="h-10  md:h-0 w-10 md:w-0 "
         src={`/icons/tree-palm-fill.svg`}
         alt="hotel"

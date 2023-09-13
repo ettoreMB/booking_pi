@@ -17,6 +17,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { ToastContainer } from "react-toastify";
 import { toastError } from "@/utils/toasts";
+import Image from "next/image";
 
 dayjs.extend(customParseFormat)
 
@@ -57,7 +58,8 @@ export default function BookingForm({product}) {
     }
     
    try {
-    await axios.post("http://localhost:5000/reservation/create", bodyData)
+    await axios.post(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/reservation/create`, bodyData)
     router.push('/success')
     
    } catch(err) {
@@ -130,7 +132,7 @@ export default function BookingForm({product}) {
         <div className="w-1/2 flex items-center">
           <div className="w-full h-full flex flex-col shadow-lg p-4 gap-2">
             <h2>Detalhes da reserva</h2>
-            <img src={product.cover_image_url} alt="" className="h-1/3 object-cover mb-2" />
+            <Image src={product.cover_image_url} alt="" className="h-1/3 object-cover mb-2" />
 
             <span className="font-semibold text-2xl">{product.name}</span>
             <span className="text-lg font-medium">{product.category}</span>

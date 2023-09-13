@@ -5,6 +5,7 @@ import productsService from "@/app/services/productService"
 
 import Link from "next/link"
 import { Suspense } from "react"
+import Image from "next/image"
 
 export default async function MeusProdutos({params}){
 
@@ -23,7 +24,7 @@ export default async function MeusProdutos({params}){
             {products.map( product => (
          <div className="flex flex-col max-w-sm  rounded-lg shadow-lg border-[0.3px] border-slate-300 border-solid" key={product.id}>
           <div className="h-32 w-full rounded-lg">
-            <img src={product.cover_image} alt="" className="object-cover h-full w-full rounded-lg" />
+            <Image src={product.cover_image} alt="" className="object-cover h-full w-full rounded-lg" />
           </div>
           <div className=" flex flex-col p-2">
             <div className="flex flex-col">

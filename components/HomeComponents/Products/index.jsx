@@ -1,12 +1,10 @@
 'use client'
 
-import Loading from "@/app/loading"
 import Card from "@/components/Card"
 import productsService from "@/app/services/productService"
 import { useQuery } from "@tanstack/react-query"
 import {   useContext, useMemo } from "react"
-import { FilterContext } from "../../provider/filterProvier"
-
+import { FilterContext } from "@/app/home/provider/filterProvier"
 
 export default function Products({products}) {
 

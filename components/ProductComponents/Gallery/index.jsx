@@ -1,5 +1,6 @@
 import { Dialog } from "@headlessui/react"
 import { Carousel } from "flowbite-react"
+import Image from "next/image"
 import { useState } from "react"
 
 export default function Gallery({ images }) {
@@ -16,19 +17,19 @@ export default function Gallery({ images }) {
     <>
       {!images && (
       <div className="h-80 w-full flex items-center">
-         <img src="/icons/no-image.svg" alt="no image" className="rounded-lg h-full w-full" />
+         <Image src="/icons/no-image.svg" alt="no image" className="rounded-lg h-full w-full" />
       </div>)}
       {images && (
          <div className="flex px-10 pb-10 h-full mt-4 gap-3">
         <div className="w-1/2 items-center justify-center flex flex-1">
-          <img src={firstFiveImages[0]} alt="" className="rounded-lg h-full h-full object-cover" />
+          <Image src={firstFiveImages[0]} alt="" className="rounded-lg h-full h-full object-cover" />
         </div>
         <div className="w-1/2  grid grid-cols-2 grid-rows-2 items-center gap-2 ">
           {firstFiveImages.slice(1, 4).map(image => (
-            <img src={image} alt="" key={image} className="rounded-lg gap-4 h-full w-full object-cover" />
+            <Image src={image} alt="" key={image} className="rounded-lg gap-4 h-full w-full object-cover" />
           ))}
           <div className="relative inline-block h-full">
-            <img src={lastImage} alt="" className="h-full w-full" />
+            <Image src={lastImage} alt="" className="h-full w-full" />
             <div className="absolute bottom-0 right-0 grid place-items-end p-4 w-full bg-optionB-gray-dark opacity-50 hover:opacity-80 ">
               <div className="text-optionB-gray-light cursor-pointer" onClick={() => handleGallery()}>VER MAIS</div>
             </div>
@@ -48,7 +49,7 @@ export default function Gallery({ images }) {
                </div>
                <Carousel>
                 {images.map(image => (
-                 <img key={image} src={image} alt="" />
+                 <Image key={image} src={image} alt="" />
                 ))}
                </Carousel>
              </Dialog.Panel>

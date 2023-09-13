@@ -1,13 +1,13 @@
 'use client'
 
 
-import Rules from "../../components/Rules";
-
 import BookingForm from "./components/form";
-import ProductHeader from "../../components/ProductHeader";
+
 import { useQuery } from "@tanstack/react-query";
 import productsService from "@/app/services/productService";
 import Loading from "@/app/loading";
+import ProductHeader from "@/components/ProductComponents/ProductHeader";
+import Rules from "@/components/ProductComponents/Rules";
 
 
 export default function Reservation({ params }) {

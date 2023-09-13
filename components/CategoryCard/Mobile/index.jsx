@@ -1,8 +1,10 @@
+import Image from "next/image";
+
 export default function CategoryCardMobile({name}) {
   return (
     <div className="w-full rounded-lg flex flex-row shadow-md">
       <div className="flex flex-row">
-        <img 
+        <Image 
           src="/icons/facebook.svg" 
           alt="hotel" 
         />

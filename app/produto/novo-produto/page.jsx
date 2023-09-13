@@ -15,6 +15,7 @@ import z from 'zod'
 import { Input } from "@/components/Input";
 import { TextArea } from "@/components/TextArea";
 import categoriesService from "@/app/services/categorieServices";
+import Image from "next/image";
 
 const imageTypeRegex = /image\/(png|jpg|jpeg)/gm;
 // const ProductFormSchema = z.object({
@@ -95,8 +96,8 @@ export default function NewProduct() {
     setFile(URL.createObjectURL(e.target.files[0]));
   }
 
-  function handleRemoveImage(img) {
-    const newImages = images.filter((image) => image !== img)
+  function handleRemoveImage(Image) {
+    const newImages = images.filter((image) => image !== Image)
     setImages(newImages)
   }
 
@@ -468,7 +469,7 @@ export default function NewProduct() {
                     onChange={(e) => handleAddAttribute(e)}
                     className="h-4 w-4 rounded-full shadow focus:ring-0"
                   />
-                  <img src={`/icons/${attribute.icon}.svg`} alt="" className="h-6 w-6" />
+                  <Image src={`/icons/${attribute.icon}.svg`} alt="" className="h-6 w-6" />
                   <span>{attribute.name}</span>
                 </div>
               ))}
@@ -499,7 +500,7 @@ export default function NewProduct() {
             <FormGroup label={"Imagem de capa"}>
               <input type="file" onChange={handleChangeImage} {...register("cover_image")} />
             </FormGroup>
-            <img src={file} className="w-20 h-20" />
+            <Image src={file} className="w-20 h-20" alt="image" />
 
             <FormGroup label={"galeria de imagens"}>
               <input type="file" multiple onChange={imageHandler} />
@@ -508,7 +509,7 @@ export default function NewProduct() {
             <div className="flex gap-2">
               {images.map(image => (
                 <div key={image} className="w-20 h-20" onClick={() => handleRemoveImage(image)}   >
-                  <img src={image} className="w-full h-full" />
+                  <Image src={image} className="w-full h-full" alt="image"/>
                 </div>
               ))}
             </div>

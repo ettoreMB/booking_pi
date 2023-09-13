@@ -1,5 +1,7 @@
 import { useContext } from "react"
-import { FilterContext } from "../../provider/filterProvier"
+
+import Image from "next/image"
+import { FilterContext } from "@/app/home/provider/filterProvier"
 
 
 export default  function Select({cities}) {
@@ -21,7 +23,7 @@ export default  function Select({cities}) {
       shadow-md
     `}
     >
-      <img src='/icons/location.svg' alt="icon" className="h-6" />
+      <Image src='/icons/location.svg' alt="icon" className="h-6" />
       <select
         className={`
         border-0 h-full focus:outline-none ring-transparent focus:ring-0 flex-1

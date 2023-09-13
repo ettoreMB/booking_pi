@@ -5,9 +5,9 @@ import Select from "./Select"
 import { Button } from "@/components/Button"
 import useScreenSize from "@/hooks/useScreenSize"
 import { useContext } from "react"
-import { FilterContext } from "../../provider/filterProvier"
+
 import { useQuery } from "@tanstack/react-query"
-import Loading from "@/app/loading"
+
 import citiesService from "@/app/services/citiesService"
 
 

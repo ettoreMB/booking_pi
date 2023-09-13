@@ -12,6 +12,7 @@ import UserBox from "./UserBox"
 import Avatar from "./Avatar"
 import MenuLink from "./MenuLink"
 import { usePathname, useSearchParams } from "next/navigation"
+import Image from "next/image"
 
 
 export default function Header() {
@@ -36,7 +37,7 @@ export default function Header() {
         <div className="w-full h-full flex justify-between items-center">
           <div>
             <Link href={'/'}>
-              <img src="/logo3.svg" alt="" />
+              <Image src="/logo3.svg" alt="" />
             </Link>
           </div>
           {(isloggedIn && user) && (<div className="flex items-center gap-2">

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "../../Button";
 import UserBox from "../UserBox";
 import { List } from "@phosphor-icons/react";
+import Image from "next/image";
 
 export default function WebHeader({loggedIn, onHandleLogout}) {
   return (
@@ -9,7 +10,7 @@ export default function WebHeader({loggedIn, onHandleLogout}) {
        <div className="w-full h-full flex justify-between items-center">
         <div>
           <Link href={'/'}>
-            <img src="/logo3.svg" alt="" /> 
+            <Image src="/logo3.svg" alt="" /> 
           </Link>
         </div>
         {loggedIn ? 

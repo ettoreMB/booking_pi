@@ -22,7 +22,7 @@ export default function AuthProvider({ children }) {
   const router = useRouter()
   async function signIn({email, password}) {
 
-      const {data} = await axios.post('http://localhost:5000/user/auth', {
+      const {data} = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/auth`, {
         email,
         password
       })

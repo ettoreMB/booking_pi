@@ -1,20 +1,24 @@
 "use client"
 
+import { Suspense } from "react"
+import {  usePathname,  useRouter } from "next/navigation"
+
+import { Button } from "flowbite-react"
+import { useQuery } from "@tanstack/react-query"
+
 import productsService from "@/app/services/productService"
 import useScreenSize from "@/hooks/useScreenSize"
-import { useQuery } from "@tanstack/react-query"
-import {  usePathname, useSearchParams, useRouter } from "next/navigation"
-import ProductHeader from "../components/ProductHeader"
-import Gallery from "../components/Gallery"
-import MobileCarrousel from "../components/MobileCarrousel"
-import ProductDescription from "../components/Description"
-import ProductServices from "../components/ProductServices"
-import ProductMap from "../components/Map"
-import Rules from "../components/Rules"
-import Calendar from "@/components/Calendar"
-import { Button } from "flowbite-react"
 import Loading from "@/app/loading"
-import { Suspense } from "react"
+import ProductHeader from "@/components/ProductComponents/ProductHeader"
+import MobileCarrousel from "@/components/ProductComponents/MobileCarrousel"
+import Gallery from "@/components/ProductComponents/Gallery"
+import ProductDescription from "@/components/ProductComponents/Description"
+import ProductMap from "@/components/ProductComponents/Map"
+import ProductServices from "@/components/ProductComponents/ProductServices"
+import Rules from "@/components/ProductComponents/Rules"
+import Calendar from "@/components/Calendar"
+
+
 
 export default function Product({params}) {
   const router = useRouter()

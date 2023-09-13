@@ -42,7 +42,7 @@ export default function AdminSignup() {
 
   async function onSubmit(data) {
    try {
-    await axios.post('http://localhost:5000/user/create', {
+    await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/create`, {
       name: data.name,
       lastName: data.lastName,
       email: data.email,
