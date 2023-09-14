@@ -38,7 +38,7 @@ const BookingFormSchema = z.object({
   observation: z.string().nullable(),
 })
 
-export default function BookingForm({product}) {
+export default function BookingForm({product, userId}) {
   const router = useRouter()
   const { combine, allowedMaxDays, beforeToday, } = DateRangePicker;
 
@@ -52,7 +52,7 @@ export default function BookingForm({product}) {
  
     const bodyData = {
       product_id: product.id,
-      user_id: "123f20a7-1ba0-4378-bc4a-e1827d132554",
+      user_id: userId,
       checkIn: `${dayjs(calendarValues[1]).format("YYYY-MM-DD")}T${checkInHours.checkIn}:00`,
       checkout: `${dayjs(calendarValues[1]).format("YYYY-MM-DD")}T${checkInHours.checkOut}:00`,
       observation: data.observation,
