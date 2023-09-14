@@ -1,3 +1,4 @@
+import axios from "axios";
 import { api } from "./api";
 
  class ProductsService {
@@ -17,13 +18,14 @@ import { api } from "./api";
   }
 
   async getProductsById(id) {
-    const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/${id}`, {next: { revalidate: 10000 ,cache: 'no-store'} })
-    return data.json()
+    const {data} = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/product/${id}`, {next: { revalidate: 10000 ,cache: 'no-store'} })
+    return data
   }
 
   async getProductsByUserId(id) {
-    const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/listByUserId/${id}`, {next: { revalidate: 10000 ,cache: 'no-store'} })
-    return data.json()
+    const {data} =  await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/product/listByUserId/${id}`, {next: { revalidate: 10000 ,cache: 'no-store'} })
+
+    return data
   }
 
 }

@@ -39,7 +39,7 @@ export default function ProductServices() {
     <div className="grid grid-cols-2 md:grid-cols-4  gap-4 md:gap-11 pl-10 md:pl-0">
       {data.map(item => (
         <div key={item.icon} className="flex  gap-3 px-2 md:px-10 items-center">
-          <Image src={`/icons/${item.icon}`} alt="" className="h-7 w-7" />
+          <Image src={`/icons/${item.icon}`} alt="" className="h-7 w-7" width={28} height={28} />
           <span>{item.text}</span>
         </div>
       ))}

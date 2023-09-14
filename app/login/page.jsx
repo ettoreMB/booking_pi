@@ -21,7 +21,7 @@ export default function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors, isSubmitting }
   } = useForm({
     resolver: zodResolver(loginFormSchema)
   })
@@ -32,16 +32,7 @@ export default function Login() {
    
     try {
       await signIn({ email: data.email, password: data.password })
-      toast('success', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+     
     } catch (error) {
       if (isAxiosError(error)) {
         if (error.response.status === 401) {
@@ -75,7 +66,7 @@ export default function Login() {
             <span>Senha</span>
             <Input type="password" {...register('password')} error={errors?.password?.message} />
           </div>
-          <Button filled type="submit">Entrar</Button>
+          <Button filled type="submit"isLoading={isSubmitting} >Entrar</Button>
         </form>
       </div>
       <ToastContainer />

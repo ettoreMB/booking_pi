@@ -15,8 +15,6 @@ import Image from "next/image"
 
 export default function Header() {
   const { signOut, user, isloggedIn } = useContext(AuthContext)
-  const { width } = useScreenSize()
-
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -35,7 +33,7 @@ export default function Header() {
         <div className="w-full h-full flex justify-between items-center">
           <div>
             <Link href={'/'}>
-              <Image src="/logo3.svg" alt="" width={100} height={100}/>
+              <Image src="/logo3.svg" alt="" width={200} height={100}/>
             </Link>
           </div>
           {(isloggedIn && user) && (<div className="flex items-center gap-2">
@@ -59,7 +57,7 @@ export default function Header() {
 
       </header>
 
-      {isOpen && (
+      {(isOpen && isloggedIn) && (
         <div className="bg-white border-solid border-[1px] border-slate-500 top-[5rem]  right-[2.5rem] float-right   shadow-xl z-50 rounded-md fixed">
           <div className="flex flex-col w-full p-4">
             <UserBox name={"ettore muniz"} onHandleLogout={signOut} />

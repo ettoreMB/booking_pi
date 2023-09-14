@@ -22,9 +22,11 @@ export default function Card({ produto }) {
       <div className="shadow-md lg:shadow-2xl self-center rounded-md bg-white flex flex-col md:flex-row h-full w-full ">
         <div className="h-1/2 md:h-full w-full md:w-1/2 object-contain relative">
           <Image
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNcd+LMUgAHVwLpfp1CsAAAAABJRU5ErkJggg=="
           fill
             className="object-cover h-full w-full rounded-md"
-            src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="hotel image"
+            src={produto.cover_image} alt="hotel image"
           />
         </div>
         <div className="h-1/2 md:h-full flex flex-col p-3 w-full md:w-1/2">

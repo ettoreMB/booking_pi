@@ -1,16 +1,12 @@
 
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Success() {
   // const animationURL = "./public/lootie/success.json";
   return (
     <div className="w-full max-w-2xl h-full flex items-center justify-center flex-col mx-auto ">
-      {/* <Player 
-        src={animationURL}
-        autoplay
-        keepLastFrame
-        speed={0.8}
-      /> */}
+     <Image src={"/icons/success.svg"} alt="success" fill/>
       <h1>Reserva efetuada com sucesso</h1>
       
       <Link href={"/"} 

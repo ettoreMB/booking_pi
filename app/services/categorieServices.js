@@ -1,3 +1,4 @@
+import axios from "axios";
 import { api } from "./api";
 
  class CategoriesService {
@@ -7,9 +8,9 @@ import { api } from "./api";
 
 
   async getCategories() {
-    const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category/list`, {next: { revalidate: 5000 }})
+    const {data} = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/category/list`, {next: { revalidate: 5000 }})
     
-    return data.json()
+    return data
   }
 }
 const categoriesService = new CategoriesService()

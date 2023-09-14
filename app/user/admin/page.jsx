@@ -8,7 +8,7 @@ import { useContext } from "react";
 export default function AdminPage() {
 
   const {user} =useContext(AuthContext)
-
+  console.log(user)
   return (
     <div className="px-10  pt-10 flex flex-col w-1/2 h-[calc(100vh -50vh)] justify-center items-center gap-6">
       <Link href={"/produto/novo-produto"} className="w-64">
