@@ -34,6 +34,8 @@ export function useNovoProduto() {
     }
   )
 
+  const [bodyData, setBodyData] = useState({})
+
   const isLoadingData = isLoadingCategories && isLoadingCities && isLoadingRules
 
   function handleAddAttribute(checked, value) {
@@ -65,6 +67,7 @@ export function useNovoProduto() {
     coverImage,
     coverImageFile,
     images,
+    bodyData,
     isOpen,
     setAddress,
     setAttributes,
@@ -73,6 +76,7 @@ export function useNovoProduto() {
     setCoverImageFile,
     setCoverImage,
     setImagesFiles,
+    setBodyData,
     handleModal
   }
 

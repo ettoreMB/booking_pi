@@ -1,3 +1,4 @@
+import axios from "axios";
 import { api } from "./api";
 
  class ReservationService {
@@ -7,8 +8,8 @@ import { api } from "./api";
 
 
   async getReservationsByUserId(id) {
-    const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reservation/listByUserId/${id}`, {next: { revalidate: 10000 ,cache: 'no-store'} })
-    return data.json()
+    const {data} = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/reservation/listByUserId/${id}`)
+    return data
   }
 
 }

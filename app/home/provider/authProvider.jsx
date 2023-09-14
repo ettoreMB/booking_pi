@@ -49,8 +49,8 @@ export default function AuthProvider({ children }) {
     sessionStorage.clear()
     setUser({})
     setIsloggedIn(false)
-    router.refresh()
     router.push('/')
+    router.refresh()
   }
 
  useEffect(() => {

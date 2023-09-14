@@ -18,6 +18,7 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  
 
   useEffect(() => {
     setIsOpen(false)
@@ -68,7 +69,7 @@ export default function Header() {
               </>
             )}
             {user.permission == 'user' && (
-              <MenuLink href={"/"}>Minhas reservas</MenuLink>
+              <MenuLink href={`/user/minhas-reservas/${user.id}`}>Minhas reservas</MenuLink>
             )}
             <span className="rounded-md bg-red-500 hover:bg-red-400  text-white font-medium flex justify-center" onClick={signOut}>Logout</span>
           </div>

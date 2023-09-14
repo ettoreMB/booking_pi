@@ -62,6 +62,8 @@ export default function NewProduct() {
     images,
     imagesFiles,
     isOpen,
+    bodyData,
+    setBodyData,
     setCoverImage,
     setCoverImageFile,
     setImages,
@@ -194,23 +196,12 @@ export default function NewProduct() {
   }
 
   async function onSubmit(data) {
-    const rules = []
-    const productImages = []
+  
+    let productImages = []
+    let coverImageURL = ""
+   
 
-    const bodyData = {
-      user_id: user.id,
-      name: data.name,
-      title: data.title,
-      description: data.description,
-      address: `${data.street} ${data.number} ${data.complement} ${data.bairro ? data.bairro : ""}`,
-      zip_code: data.zip_code,
-      cover_image_url: "",
-      city_id: address.localidade.id,
-      category_id: data.category,
-      images: productImages,
-      rules,
-      attributes
-    }
+  
 
     if (imagesFiles.length < 5) {
       toastError("deve ter ao menos 5 imagens")
@@ -219,7 +210,6 @@ export default function NewProduct() {
 
 
     try {
-
       const { data: urlImage } = await axios.post(`/api/imageS3?product=${data.name}&file=${coverImageFile.name}&fileType=${coverImageFile.type}`)
 
       await axios.put(urlImage, coverImageFile, {
@@ -227,9 +217,15 @@ export default function NewProduct() {
           "Content-Type": coverImageFile.type
         }
       })
+  
+      coverImageURL = `https:${process.env.NEXT_PUBLIC_S3_BUCKET}.s3.amazonaws.com/${data.name}-${coverImageFile.name}`
+    } catch (error) {
+      console.log(error)
+      toastError(error)
+    }
 
-      bodyData.cover_image_url = `https:${process.env.NEXT_PUBLIC_S3_BUCKET}.s3.amazonaws.com/${data.name}-${coverImageFile.name}`
 
+    try {
       imagesFiles.forEach(async (file) => {
 
         const { data: urlImage } = await axios.post(`/api/imageS3?product=${data.name}&file=${file.name}&fileType=${file.type}`)
@@ -242,12 +238,35 @@ export default function NewProduct() {
         productImages.push(`https:${process.env.NEXT_PUBLIC_S3_BUCKET}.s3.amazonaws.com/${data.name}-${file.name}`)
 
       })
+      body.images = productImages
+    } catch (error) {
+      console.log(error)
+      toastError(error)
+    }
 
-      await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/product/create`, bodyData)
+    const body = {
+      user_id: user.id,
+      name: data.name,
+      title: data.title,
+      description: data.description,
+      address: `${data.street} ${data.number} ${data.complement} ${data.bairro ? data.bairro : ""}`,
+      zip_code: data.zip_code,
+      cover_image_url: coverImageURL,
+      city_id: address.localidade.id,
+      category_id: data.category,
+      images: productImages,
+      rules,
+      attributes
+    }
+    console.log(body)
+
+    try {
+    
+      await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/product/create`, body)
 
       handleModal(true)
-
     } catch (error) {
+    
       toastError("Erro ao criar produto")
     }
 
@@ -533,7 +552,7 @@ export default function NewProduct() {
                   <div className="flex gap-2 relative">
                     {images.map((image, index) => (
                       <div key={index} className="w-96 h-96" onClick={() => handleRemoveImage(image)}   >
-                        <Image src={image} className="w-96" alt="image" width={200} height={200} />
+                        <Image src={image} className="w-full h-full" alt="image" width={200} height={200} />
                       </div>
                     ))}
                 </div>
