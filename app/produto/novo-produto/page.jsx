@@ -20,6 +20,7 @@ import { toastError } from "@/utils/toasts";
 import { ToastContainer } from "react-toastify";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Divider } from "@mui/material";
 
 
 const imageTypeRegex = /image\/(png|jpg|jpeg)/gm;
@@ -33,12 +34,12 @@ const ProductFormSchema = z.object({
   number: z.string().nonempty({ message: "Campo deve estar preenchido" }),
   state: z.string(),
   complement: z.string().nullable(),
-   lat: z.number(),
-   long: z.number(),
-   category: z.string(),
-   title: z.string(),
+  lat: z.number(),
+  long: z.number(),
+  category: z.string(),
+  title: z.string(),
   rules: z.array(z.object({
-    id:z.string(),
+    id: z.string(),
     text: z.string()
   }))
 })
@@ -81,7 +82,7 @@ export default function NewProduct() {
   } = useForm({
     resolver: zodResolver(ProductFormSchema)
   })
-  
+
   const router = useRouter()
   async function searchCEP() {
     const cep = getValues("zip_code")
@@ -195,7 +196,6 @@ export default function NewProduct() {
   async function onSubmit(data) {
     const rules = []
     const productImages = []
-    
 
     const bodyData = {
       user_id: user.id,
@@ -246,11 +246,11 @@ export default function NewProduct() {
       await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/product/create`, bodyData)
 
       handleModal(true)
-      
+
     } catch (error) {
       toastError("Erro ao criar produto")
     }
-    
+
 
   }
 
@@ -308,243 +308,262 @@ export default function NewProduct() {
       {isLoadingData && <Loading />}
       {!isLoadingData &&
         (
-          <form className="flex flex-col px-10 pt-10 gap-3" onSubmit={handleSubmit(onSubmit)}>
-            {/* Nome */}
-            <div className="bg-white shadow-lg rounded-lg p-4">
-              <h2>Nome</h2>
-              <div className="flex gap-4">
-                <FormGroup label={"Nome: "}>
-                  <Input type="text" name="" id="" {...register('name', { required: true })} placeholder="nome" error={errors?.name?.message} />
-                </FormGroup>
+          <form className="flex w-full  flex-wrap px-10 pt-10 gap-3" onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex w-full flex-wrap gap-4">
+              {/* Nome */}
+              <div className="bg-white shadow-lg  flex-1  min-w-[400px]  rounded-lg p-4">
+                <h2>Nome</h2>
+                <div className="flex flex-wrap gap-4">
+                  <FormGroup label={"Nome: "}>
+                    <Input type="text" name="" id="" {...register('name', { required: true })} placeholder="nome" error={errors?.name?.message} />
+                  </FormGroup>
 
-                <FormGroup label={"Titulo: "}>
-                  <Input type="text" name="" id="" {...register('title')} placeholder="titulo" error={errors?.title?.message} />
-                </FormGroup>
+                  <FormGroup label={"Titulo: "}>
+                    <Input type="text" name="" id="" {...register('title')} placeholder="titulo" error={errors?.title?.message} />
+                  </FormGroup>
 
-                <FormGroup label={"Cateogira: "}>
-                  <div>
-                    <select
-                      required
-                      {...register('category')}
-                      className=" border-0   h-10  focus:outline-none  ring-transparent   focus:ring-0  flex-1  rounded  bg-white  flex   gap-2   w-full  md:max-w-md   lg:max-w-3xl  items-center   py-2   px-2   shadow-md"
-                      id="categories"
-                    >
-                      <option value="">Selecione uma categoria</option>
-                      {categories.map(category => (
-                        <option key={category.ID} value={category.ID}>{category.Name}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                </FormGroup>
-
-              </div>
-
-              <FormGroup label={"Descrição: "}>
-                <TextArea  {...register('description')} required placeholder="descrição"
-                  className="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-optionB-main  focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50" />
-              </FormGroup>
-            </div>
-
-            {/* Endereco */}
-            <div className="bg-white shadow-lg rounded-lg p-4">
-              <h2>Endereço</h2>
-              <div className="flex flex-col">
-                <div className="flex">
-                  <FormGroup label={"CEP: "}>
-                    <div className="flex gap-2">
-                      <Input type="text"  {...register('zip_code')} placeholder="cep" error={errors?.zip_code?.message} />
-                      <Button filled size={"md"} type="button" onClick={searchCEP}>Buscar dados</Button>
+                  <FormGroup label={"Cateogira: "}>
+                    <div>
+                      <select
+                        required
+                        {...register('category')}
+                        className=" border-0   h-10  focus:outline-none  ring-transparent   focus:ring-0  flex-1  rounded  bg-white  flex   gap-2   w-full  md:max-w-md   lg:max-w-3xl  items-center   py-2   px-2   shadow-md"
+                        id="categories"
+                      >
+                        <option value="">Selecione uma categoria</option>
+                        {categories?.map(category => (
+                          <option key={category.ID} value={category.ID}>{category.Name}</option>
+                        ))}
+                      </select>
                     </div>
 
                   </FormGroup>
+
                 </div>
-                {!!address.cep && (
-                  <>
-                    <div className="flex">
-                      <FormGroup label={"Rua"}>
-                        <Input 
-                        type="text"
-                        error={errors?.street?.message}
-                         {...register("street", {
-                          onChange: (e) => {
-                            handleGetCoordinates({
+
+                <FormGroup label={"Descrição: "}>
+                  <TextArea  {...register('description')} required placeholder="descrição"
+                    className="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-optionB-main  focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50" />
+                </FormGroup>
+              </div>
+
+
+              {/* Endereco */}
+              <div className="bg-white flex-wrap shadow-lg  flex-1  min-w-[400px]    rounded-lg p-4">
+                <h2>Endereço</h2>
+                <div className="flex-col">
+                  <div className=" flex flex-wrap items-center w-full gap-2 md:gap-4 mb-4">
+
+                    <FormGroup label={"CEP: "}>
+                      <Input type="text"  {...register('zip_code')} placeholder="cep" error={errors?.zip_code?.message} />
+                    </FormGroup>
+
+                    <div className="pt-0 md:pt-2">
+
+                      <Button filled size={"md"} type="button" onClick={searchCEP}>Buscar dados</Button>
+                    </div>
+
+                  </div>
+
+
+                  {!!address.cep && (
+                    <>
+                      <div className="flex flex-wrap">
+                        <FormGroup label={"Rua"}>
+                          <Input
+                            type="text"
+                            error={errors?.street?.message}
+                            {...register("street", {
+                              onChange: (e) => {
+                                handleGetCoordinates({
+                                  number: getValues("number"),
+                                  city: address.localidade.name,
+                                  state: address.uf,
+                                  street: e.target.value
+                                })
+                              }
+                            })} placeholder="Rua" />
+
+                        </FormGroup>
+
+                        <FormGroup label={"Numero: "}>
+                          <Input type="text"
+                            placeholder="número"
+                            error={errors?.number?.message}
+                            {...register("number", {
+                              onChange: (e) => {
+                                handleGetCoordinates({
+                                  number: e.target.value,
+                                  city: address.localidade.name,
+                                  state: address.uf,
+                                  street: getValues("street")
+                                })
+                              }
+                            })}
+                          />
+                        </FormGroup>
+
+                        <FormGroup label={"Complemento: "}>
+                          <Input type="text" {...register("complement")} placeholder="complemento" />
+                        </FormGroup>
+
+                        <FormGroup label={"Bairro: "}>
+                          <Input type="text" {...register("bairro")} placeholder="bairro" />
+                        </FormGroup>
+                      </div>
+
+                      <div className="flex flex-wrap">
+                        <FormGroup label={"cidade"}>
+                          <select id="city-select" {...register('city')}
+                            className=" border-0 h-10 focus:outline-none ring-transparent focus:ring-0 flex-1 rounded  bg-white flex gap-2 w-full md:max-w-md lg:max-w-3xl items-center py-2 px-2 shadow-md">
+                            <option value={address.localidade.id} selected={!!address.localidade.name}>{address.localidade.name ? address.localidade.name : "selecione uma cidade"}</option>
+                            {cities.map(city => (
+                              <option value={city.ID} key={city.ID}>{city.Name}</option>
+                            ))}
+
+                          </select>
+                        </FormGroup>
+
+                        <FormGroup label={"Estado: "}>
+                          <Input type="text" {...register("state")} placeholder="Rua" />
+                        </FormGroup>
+                      </div>
+                      <div className="flex flex-col">
+                        <h3>Coordenadas</h3>
+                        <div className="flex items-center flex-wrap">
+                          <FormGroup label={"lat: "}>
+                            <Input type="text" {...register("lat")} placeholder="Latitude" />
+                          </FormGroup>
+
+                          <FormGroup label={"long: "}>
+                            <Input type="text" {...register("long")} placeholder="Longitude" />
+                          </FormGroup>
+
+                          <Button type="button"
+                            onClick={() => handleGetCoordinates({
                               number: getValues("number"),
                               city: address.localidade.name,
                               state: address.uf,
-                              street: e.target.value
-                            })
-                          }
-                        })} placeholder="Rua" />
-
-                      </FormGroup>
-
-                      <FormGroup label={"Numero: "}>
-                        <Input type="text" 
-                        placeholder="número" 
-                        error={errors?.number?.message}
-                        {...register("number", {
-                          onChange: (e) => {
-                            handleGetCoordinates({
-                              number: e.target.value,
-                              city: address.localidade.name,
-                              state: address.uf,
                               street: getValues("street")
-                            })
-                          }
-                        })} 
+                            })}
+                          >Buscar</Button>
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full flex flex-wrap gap-4">
+              {/* Caracteristicas */}
+              <div className="flex flex-col   min-w-[400px] bg-white shadow-lg rounded-lg p-4 mb-4">
+                <h2>Caracteristicas</h2>
+                <div className="flex gap-4">
+                  {rules?.attributes.map((attribute, index) => (
+                    <div className="flex gap-1 items-center" key={attribute.id}>
+                      <input
+                        id={`attribute-${index}`}
+                        type="checkbox"
+
+
+                        value={`${attribute.id}`}
+                        onChange={(e) => handleAddAttribute(e.target.checked, e.target.value)}
+                        className="h-4 w-4 rounded-full shadow focus:ring-0"
                       />
-                      </FormGroup>
-
-                      <FormGroup label={"Complemento: "}>
-                        <Input type="text" {...register("complement")} placeholder="complemento" />
-                      </FormGroup>
-
-                      <FormGroup label={"Bairro: "}>
-                        <Input type="text" {...register("bairro")} placeholder="bairro" />
-                      </FormGroup>
+                      <Image src={`/icons/${attribute.icon}.svg`} alt="" className="h-6 w-6" width={24} height={24} />
+                      <span>{attribute.name}</span>
                     </div>
+                  ))}
+                </div>
+              </div>
 
-                    <div className="flex">
-                      <FormGroup label={"cidade"}>
-                        <select id="city-select" {...register('city')}
-                          className=" border-0 h-10 focus:outline-none ring-transparent focus:ring-0 flex-1 rounded  bg-white flex gap-2 w-full md:max-w-md lg:max-w-3xl items-center py-2 px-2 shadow-md">
-                          <option value={address.localidade.id} selected={!!address.localidade.name}>{address.localidade.name ? address.localidade.name : "selecione uma cidade"}</option>
-                          {cities.map(city => (
-                            <option value={city.ID} key={city.ID}>{city.Name}</option>
-                          ))}
-
-                        </select>
-                      </FormGroup>
-
-                      <FormGroup label={"Estado: "}>
-                        <Input type="text" {...register("state")} placeholder="Rua" />
-                      </FormGroup>
-                    </div>
-                    <div className="flex flex-col">
-                      <h3>Coordenadas</h3>
-                      <div className="flex items-center">
-                        <FormGroup label={"lat: "}>
-                          <Input type="text" {...register("lat")} placeholder="Latitude" />
-                        </FormGroup>
-
-                        <FormGroup label={"long: "}>
-                          <Input type="text" {...register("long")} placeholder="Longitude" />
-                        </FormGroup>
-
-                        <Button type="button"
-                        onClick={() => handleGetCoordinates({
-                          number: getValues("number"),
-                          city: address.localidade.name,
-                          state: address.uf,
-                          street: getValues("street")
-                        })}
-                        >Buscar</Button>
+              {/* Rules */}
+              <div className="flex flex-col min-w-[400px] flex-1   bg-white shadow-lg rounded-lg p-4">
+                <h2>Regras</h2>
+                <div className="flex gap-4 flex-wrap">
+                  {rules?.rules.map((rule, index) => (
+                    <div key={rule.id}>
+                      <div className="flex flex-col gap-2">
+                        <span>{rule.title}</span>
+                        <input type="hidden" {...register(`rules.${index}.id`, { value: `${rule.id}` })} />
+                        <TextArea value={rule.text} {...register(`rules.${index}.text`)} required />
+                        <div className="flex gap-2 items-center">
+                          <input type="checkbox" id={`rule-${index}`} value={`${index}_${rule.id}`} onClick={(e) => handleAddDefaultText(e)} className="h-4 w-4 rounded-full shadow focus:ring-0" />
+                          <label htmlFor="">usar texto  padrão</label>
+                        </div>
                       </div>
+
                     </div>
-                  </>
-                )}
-
-              </div>
-            </div>
-
-            {/* Caracteristicas */}
-            <div className="flex flex-col bg-white shadow-lg rounded-lg p-4">
-              <h2>Caracteristicas</h2>
-              <div className="flex gap-4">
-                {rules?.attributes.map((attribute, index) => (
-                  <div className="flex gap-1 items-center" key={attribute.id}>
-                    <input
-                      id={`attribute-${index}`}
-                      type="checkbox"
-
-
-                      value={`${attribute.id}`}
-                      onChange={(e) => handleAddAttribute(e.target.checked, e.target.value)}
-                      className="h-4 w-4 rounded-full shadow focus:ring-0"
-                    />
-                    <Image src={`/icons/${attribute.icon}.svg`} alt="" className="h-6 w-6" width={24} height={24} />
-                    <span>{attribute.name}</span>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
 
             </div>
 
 
-            {/* Rules */}
-            <div className="flex flex-col bg-white shadow-lg rounded-lg p-4">
-              <h2>Regras</h2>
-              <div className="flex gap-4">
-                {rules?.rules.map((rule, index) => (
-                  <div key={rule.id}>
-                    <div className="flex flex-col gap-2">
-                      <span>{rule.title}</span>
-                      <input type="hidden" {...register(`rules.${index}.id`, { value: `${rule.id}`})} />
-                      <TextArea value={rule.text} {...register(`rules.${index}.text`)} required/>
-                      <div className="flex gap-2 items-center">
-                        <input type="checkbox" id={`rule-${index}`} value={`${index}_${rule.id}`} onClick={(e) => handleAddDefaultText(e)} className="h-4 w-4 rounded-full shadow focus:ring-0" />
-                        <label htmlFor="">usar texto  padrão</label>
-                      </div>
-                    </div>
-
-                  </div>
-                ))}
-              </div>
-            </div>
 
             {/* Imagens */}
-            <div className="flex flex-col bg-white shadow-lg rounded-lg p-4 gap-6">
+            <div className="flex flex-col w-full bg-white shadow-lg rounded-lg p-4 gap-6">
               <h2>Imagens</h2>
               <div className="flex flex-col">
-              <h3 className="text-lg font-semibold" >Galeria de imagens</h3>
-              <FormGroup>
-                <input type="file" {...register("cover_image", { onChange: (e) => handleChangeImage(e) })} />
-              </FormGroup>
-              {coverImage && (
-                <Image src={coverImage} className="w-20 h-20" alt="image" width={80} height={80} />
-              )}
-              </div>
-              
+                <h3 className="text-lg font-semibold" >Imagem de capa</h3>
+                <span className="text-sm " >escolha uma imagem de capa</span>
 
-              <div className="flex flex-col gap-2">
+                <div className="flex flex-col md:flex-row items-center p-2">
+                  <FormGroup>
+                    <input type="file" {...register("cover_image", { onChange: (e) => handleChangeImage(e) })} />
+                  </FormGroup>
+                  {coverImage && (
+                    <Image src={coverImage} className="w-96 " alt="image" width={200} height={200} />
+                  )}
+                </div>
+                <Divider />
+              </div>
+
+              <div className="flex flex-col gap-4">
                 <h3 className="text-lg font-semibold" >Galeria de imagens</h3>
-              <FormGroup >
-                <input type="file" multiple onChange={imageHandler} />
-              </FormGroup>
+                <span className="text-sm" >escolha no minimo 5 fotos para sua galeria</span>
+                <div className="flex flex-col justify-center p-2">
+                  <FormGroup >
+                    <input type="file" multiple onChange={imageHandler} />
+                  </FormGroup>
 
-              <div className="flex  gap-2">
-                {images.map((image, index) => (
-                  <div key={index} className="w-20 h-20" onClick={() => handleRemoveImage(image)}   >
-                    <Image src={image} className="w-full h-full" alt="image" width={80} height={80} />
-                  </div>
-                ))}
+                  <div className="flex gap-2 relative">
+                    {images.map((image, index) => (
+                      <div key={index} className="w-96 h-96" onClick={() => handleRemoveImage(image)}   >
+                        <Image src={image} className="w-96" alt="image" width={200} height={200} />
+                      </div>
+                    ))}
+                </div>
+                </div>
               </div>
-              </div>
+              <Button filled type="submit" isLoading={isSubmitting}>enviar</Button>
             </div>
-            <Button filled type="submit" isLoading={isSubmitting}>enviar</Button>
           </form>
         )}
 
-         <Dialog open={true} onClose={() => setIsOpen(false)} className="relative z-50 rounded-lg">
-         <div className="fixed inset-0 bg-optionA-gray-dark/70" aria-hidden="true">
-           <div className="fixed inset-0 flex items-center justify-center p-4">
-             <Dialog.Panel className={"w-96 md:w-96 h-96 rounded bg-white  flex flex-col items-center p-4"}>
-               
-                <div className=" flex flex-1 flex-col mb-4 relative w-full">
+      <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="relative z-50 rounded-lg">
+        <div className="fixed inset-0 bg-optionA-gray-dark/70" aria-hidden="true">
+          <div className="fixed inset-0 flex items-center justify-center p-4">
+            <Dialog.Panel className={"w-96 md:w-96 h-96 rounded bg-white  flex flex-col items-center p-4"}>
+
+              <div className=" flex flex-1 flex-col mb-4 relative w-full">
                 <Image alt="success" src="/icons/success.svg" fill className="w-full h-full" />
-                </div>
-                <div className="flex flex-col">
+              </div>
+
+              <div className="flex flex-col">
                 <span className="text-xl mb-4">Cadastro Realizado com sucesso</span>
-                  <Button filled onClick={()=> router.back()}>Voltar ao menu</Button>
-                </div>
-               
-             </Dialog.Panel>
-           </div>
-         </div>
- 
-       </Dialog>
-       <ToastContainer />
+                <Button filled onClick={() => router.back()}>Voltar ao menu</Button>
+              </div>
+
+            </Dialog.Panel>
+          </div>
+        </div>
+
+      </Dialog>
+      <ToastContainer />
     </>
   )
 }
