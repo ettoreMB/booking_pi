@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { ToastContainer } from "react-toastify";
 import { toastError } from "@/utils/toasts";
 import Image from "next/image";
+import { TextArea } from "@/components/TextArea";
 
 dayjs.extend(customParseFormat)
 
@@ -69,22 +70,22 @@ export default function BookingForm({product}) {
 
   return (
     <>
-      <form  className="h-full w-full flex gap-4" onSubmit={handleSubmit(submitCheckIn)} > 
-        <div className="w-1/2 pr-4 shadow-xl h-full">
+      <form  className="h-full w-full flex flex-col md:flex-row gap-4" onSubmit={handleSubmit(submitCheckIn)} > 
+        <div className="w-full md:w-1/2 pr-0 md:pr-4 shadow-xl h-full">
           <div className="flex flex-col gap-4  p-2 my-4">
             <h2>Complete seus dados</h2>
-            <div className="flex gap-4 w-full">
+            <div className="flex flex-wrap gap-4 w-full">
               <div className="flex flex-col flex-1">
                 <label htmlFor="">Nome</label>
                 <Input {...register("name")} />
               </div>
 
-              <div className="flex flex-col flex-1">
+              <div className="flex  flex-col flex-1">
                 <label htmlFor="">Sobrenome</label>
                 <Input {...register("lastName")} />
               </div>
             </div>
-            <div className="flex gap-4 w-full">
+            <div className="flex flex-wrap gap-4 w-full">
               <div className="flex flex-col flex-1">
                 <label htmlFor="">Email</label>
                 <Input {...register("email")}/>
@@ -101,8 +102,8 @@ export default function BookingForm({product}) {
             <DateRangePicker size="lg" format="dd-MM-yyyy" shouldDisableDate={beforeToday()} onOk={(e) => handleCalendarValue(e)} onClean={(e) => handleCalendarValue([])} />
           </div>
 
-          <div className="flex gap-4  p-2 my-4">
-            <div className="flex flex-col w-full">
+          <div className="flex gap-4 flex-wrap p-2 my-4">
+            <div className="flex  flex-col w-full">
               <label htmlFor="">Entrada</label>
               <select className="" id='inicial' onChange={(e) => handleCheckInHour(e.target.value)}>
                 <option value="" >Selecionar hora</option>
@@ -122,17 +123,19 @@ export default function BookingForm({product}) {
             </div>
           </div>
           <div className="">
-            <textarea 
+            <TextArea 
             {...register("observation")}
             className="w-full h-40  flex-1 resize-none border-1 rounded-md" 
             placeholder="Deixe aqui seu comentário ou qualquer duvida sobre sua hospedagem" />
           </div>
         </div>
 
-        <div className="w-1/2 flex items-center">
+        <div className="w-full md:w-1/2 flex items-center">
           <div className="w-full h-full flex flex-col shadow-lg p-4 gap-2">
             <h2>Detalhes da reserva</h2>
-            <Image src={product.cover_image_url} alt="" className="h-1/3 object-cover mb-2" />
+            <div className="relative w-full h-36 md:h-1/3">
+              <Image src={product.cover_image_url} alt="" className="h-full w-full object-cover mb-2" fill/>
+            </div>
 
             <span className="font-semibold text-2xl">{product.name}</span>
             <span className="text-lg font-medium">{product.category}</span>

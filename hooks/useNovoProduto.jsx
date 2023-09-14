@@ -6,8 +6,8 @@ import { useState } from "react"
 
 export function useNovoProduto() {
   const { data: rules, isLoading: isLoadingRules } = useQuery({ queryKey: ['rulesAttributes'], queryFn: () => rulesAttributesService.getRulesAttributes(),  })
-  const { data: cities, isLoading: isLoadingCities } = useQuery({ queryKey: ['cities'], queryFn: () => citiesService.getCities(), initialData: [] })
-  const { data: categories, isLoading: isLoadingCategories } = useQuery({ queryKey: ['categories'], queryFn: () => categoriesService.getCategories(), initialData: [] })
+  const { data: cities, isLoading: isLoadingCities } = useQuery({ queryKey: ['cities'], queryFn: () => citiesService.getCities(),  })
+  const { data: categories, isLoading: isLoadingCategories } = useQuery({ queryKey: ['categories'], queryFn: () => categoriesService.getCategories(),  })
 
 
   const [images, setImages] = useState([])

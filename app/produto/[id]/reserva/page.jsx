@@ -20,10 +20,10 @@ export default function Reservation({ params }) {
       {!isLoading && (
         <div className="">
           <ProductHeader product={data} showSubHeder={false} />
-          <div className="px-10">
-            <div className="flex gap-6  h-[680px]">
+          <div className="px-0 md:px-10">
+           
               <BookingForm  product={data}/>
-            </div>
+           
             <Rules />
           </div>
         </div>

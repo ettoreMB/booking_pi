@@ -18,6 +18,8 @@ import { useNovoProduto } from '@/hooks/useNovoProduto';
 import { AuthContext } from '@/app/home/provider/authProvider';
 import { toastError } from "@/utils/toasts";
 import { ToastContainer } from "react-toastify";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 
 const imageTypeRegex = /image\/(png|jpg|jpeg)/gm;
@@ -80,7 +82,7 @@ export default function NewProduct() {
     resolver: zodResolver(ProductFormSchema)
   })
   
-  console.log(errors)
+  const router = useRouter()
   async function searchCEP() {
     const cep = getValues("zip_code")
     try {
@@ -525,16 +527,16 @@ export default function NewProduct() {
         )}
 
          <Dialog open={true} onClose={() => setIsOpen(false)} className="relative z-50 rounded-lg">
-         <div className="fixed inset-0 bg-transparent" aria-hidden="true">
+         <div className="fixed inset-0 bg-optionA-gray-dark/70" aria-hidden="true">
            <div className="fixed inset-0 flex items-center justify-center p-4">
-             <Dialog.Panel className={"w-full md:w-1/2 h-full rounded bg-white  flex flex-col items-center "}>
+             <Dialog.Panel className={"w-96 md:w-96 h-96 rounded bg-white  flex flex-col items-center p-4"}>
                
-                <div className=" flex flex-1 flex-col">
-                <Image alt="success" src="/icons/success.svg" fill />
+                <div className=" flex flex-1 flex-col mb-4 relative w-full">
+                <Image alt="success" src="/icons/success.svg" fill className="w-full h-full" />
                 </div>
                 <div className="flex flex-col">
-                <span className="text-3xl">Realizado com sucesso</span>
-                  <button>Voltar ao menu</button>
+                <span className="text-xl mb-4">Cadastro Realizado com sucesso</span>
+                  <Button filled onClick={()=> router.back()}>Voltar ao menu</Button>
                 </div>
                
              </Dialog.Panel>
