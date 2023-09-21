@@ -9,7 +9,7 @@ export default function MobileCarrousel({ images }) {
     {!images && ( <Image src="/icons/no-image.svg" alt="no image" className="rounded-lg h-full w-full" />)}
     {images && (  <Carousel>
         {images.map(image => (
-          <Image key={image} src={image} alt="" />
+          <Image key={image} src={image} alt="" width={100} height={100} />
         ))}
       </Carousel>)}
     </div>

@@ -4,14 +4,13 @@ export default function CategoryCard({ name, image , icon}) {
 
   return (
     <div className=" w-full md:w-60  h-16 md:h-60 rounded-lg flex flex-col shadow-md items-center">
-    <div className=" h-0 md:h-44 w-0 md:w-full">
+    <div className=" h-0 md:h-44 w-0 md:w-full relative">
       <Image
         className=" h-0 md:h-full w-0  md:w-full object-cover"
         src={image}
-        alt="hotel"
-        width={100}
-        height={176}
-        
+        alt="categoria"
+        fill
+
       />
       {/* <Image
         className="h-10  md:h-0 w-10 md:w-0 "
@@ -21,7 +20,7 @@ export default function CategoryCard({ name, image , icon}) {
     </div>
     <div className="flex flex-col  w-full p-3">
       <h2 className="text-xl text-optionB-gray-dark font-bold">{name}</h2>
-      <span className="text-sm text-optionB-gray-main">12312 {name}</span>
+      <span className="text-sm text-optionB-gray-main">{Math.floor(Math.random() * 120)} lugares</span>
     </div>
   </div>
   )

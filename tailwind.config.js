@@ -9,40 +9,40 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'body': '#FFF',
+        body: '#FFF',
         optionA: {
-          'main': '#F0572D',
+          main: '#F0572D',
           gray: {
-            'light': '#DFE4EA',
-            'dark': '#191B1D',
-            'main': '#31363F'
-          }
+            light: '#DFE4EA',
+            dark: '#191B1D',
+            main: '#31363F',
+          },
         },
         optionB: {
-          'main': '#1DBEB4',
+          main: '#1DBEB4',
           gray: {
-            'light': '#F3F1ED',
-            'main': '#545776',
-            'dark': '#383B58',
-          }
+            light: '#F3F1ED',
+            main: '#545776',
+            dark: '#383B58',
+          },
         },
         optionC: {
-          'main': '#FBC02D',
+          main: '#FBC02D',
           gray: {
-            'light': '#FFFBE2',
-            'main': '#607D8B',
-            'dark': '#263238',
-          }
+            light: '#FFFBE2',
+            main: '#607D8B',
+            dark: '#263238',
+          },
         },
         red: {
-          'light': '#ffe6e6',
-          'dark': '#b00020'
-        }
+          light: '#ffe6e6',
+          dark: '#b00020',
+        },
+      },
+      gridTemplateRows: {
+        app: '5rem 1fr 3rem',
       },
     },
   },
-  plugins: [
-    require('flowbite/plugin'),
-    require("@tailwindcss/forms")
-  ],
+  plugins: [require('flowbite/plugin'), require('@tailwindcss/forms')],
 }

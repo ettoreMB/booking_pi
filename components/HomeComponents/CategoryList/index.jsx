@@ -9,12 +9,12 @@ import categoriesService from "@/app/services/categorieServices"
 export default function CategoryList({ categories }) {
   
   const { data } = useQuery({ queryKey: ['categories'], queryFn:()=> categoriesService.getCategories(), initialData: categories })
-console.log('renderizou categorias')
+  console.log(categories)
   const { handleSelectCategory } = useContext(FilterContext)
   return (
 
-    <section className="mb-4">
-      <h2 className="text-2xl text-optionB-gray-main font-bold mb-2 w-full">Buscar por tipo de acomodação</h2>
+    <section className="mb-4 px-2 md:px-10">
+      <h2 className="text-2xl text-optionB-gray-main font-bold my-2 w-full">Buscar por tipo de acomodação</h2>
       <div className="flex flex-row  flex-wrap gap-4">
         {data.map((category, index) => (
           <div key={category.ID} onClick={() => handleSelectCategory(category.Name)} >

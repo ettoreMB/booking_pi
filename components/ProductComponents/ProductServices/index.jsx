@@ -1,50 +1,60 @@
-import Image from "next/image"
+import Image from 'next/image'
 
 const data = [
   {
     icon: 'kitchen.svg',
-    text: 'Cozinha'
+    text: 'Cozinha',
   },
   {
     icon: 'tv.png',
-    text: 'Televisor'
+    text: 'Televisor',
   },
   {
     icon: 'air.svg',
-    text: 'Ar condicionado'
+    text: 'Ar condicionado',
   },
   {
     icon: 'pet.svg',
-    text: 'Aceita pet'
+    text: 'Aceita pet',
   },
   {
     icon: 'car.png',
-    text: 'Estacionamento gratuito'
+    text: 'Estacionamento gratuito',
   },
   {
     icon: 'swin.svg',
-    text: 'Piscina'
+    text: 'Piscina',
   },
   {
-    icon: 'wifi.png',
-    text: 'Wifi'
+    icon: 'wifi.svg',
+    text: 'Wifi',
   },
 ]
 
 export default function ProductServices() {
   return (
     <section className="py-4 h-64 flex flex-col">
-    <h2 className="text-xl text-optionB-gray-dark font-bold mb-4 px-10">O que este lugar oferece ?</h2>
-    <div className="w-full border-b-2 border-optionB-main mb-10"></div>
-    <div className="grid grid-cols-2 md:grid-cols-4  gap-4 md:gap-11 pl-10 md:pl-0">
-      {data.map(item => (
-        <div key={item.icon} className="flex  gap-3 px-2 md:px-10 items-center">
-          <Image src={`/icons/${item.icon}`} alt="" className="h-7 w-7" width={28} height={28} />
-          <span>{item.text}</span>
-        </div>
-      ))}
-
-    </div>
-  </section>
+      <h2 className="text-xl text-optionB-gray-dark font-bold mb-4 px-10">
+        O que este lugar oferece ?
+      </h2>
+      <div className="w-full border-b-2 border-optionB-main mb-10"></div>
+      <div className="grid grid-cols-2 md:grid-cols-4  gap-4 md:gap-11 pl-10 md:pl-0">
+        {data.map((item) => (
+          <div
+            key={item.icon}
+            className="flex  gap-3 px-2 md:px-10 items-center"
+          >
+            <Image
+              src={`/icons/${item.icon}`}
+              alt=""
+              className="h-7 w-7"
+              width={28}
+              height={28}
+            />
+            <span>{item.text}</span>
+          </div>
+        ))}
+      </div>
+    </section>
   )
 }
